@@ -62,7 +62,11 @@ testData['label'].value_counts()
 
 # Visualizing spam and ham words
 # SPAM words corpus
-spam_words = ' '.join(list(mails[mails['label'] == 1]['message']))
+spam_words = ''
+spam_list = list(mails[mails['label'] == 1]['message'])
+for ele in spam_list:
+    spam_words += str(ele)
+#spam_words = ' '.join(list(mails['message'] if mails['label'] == 1))
 spam_wc = WordCloud(width = 512,height = 512).generate(spam_words)
 plt.figure(figsize = (10, 8), facecolor = 'k')
 plt.imshow(spam_wc)
@@ -87,6 +91,7 @@ testData['label'].value_counts()
 # Preprocessing messages
 def process_message(message, lower_case = True, stem = True, stop_words = True, gram = 2):
     if lower_case:
+        message = str(message)
         message = message.lower()
     words = word_tokenize(message)
     words = [w for w in words if len(w) > 2]
@@ -242,5 +247,5 @@ pm = process_message('I cant pick the phone right now. Pls send a message')
 sc_tf_idf.classify(pm)
 
 # Classify another input
-pm = process_message('Congratulations ur awarded $500 ')
+pm = process_message('Debited a/c $500 ')
 sc_tf_idf.classify(pm)
